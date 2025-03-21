@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <activity
+            android:name=".ui.viewer.ImageEditorViewerActivity"
+            android:theme="@style/HiImageEditorTheme.NoActionBar" />
+
+        <activity
+            android:name=".ui.editor.ImageEditorActivity"
+            android:hardwareAccelerated="true"
+            android:theme="@style/HiImageEditorTheme.NoActionBar"
+            android:windowSoftInputMode="adjustNothing" />
+    </application>
+</manifest>

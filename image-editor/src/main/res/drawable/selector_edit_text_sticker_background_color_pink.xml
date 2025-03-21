@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true" android:drawable="@drawable/ic_edit_text_sticker_background_color_select_pink"/>
+    <item android:state_selected="false" android:drawable="@drawable/ic_edit_text_sticker_background_color_pink"/>
+    <item android:drawable="@drawable/ic_edit_text_sticker_background_color_pink"/>
+</selector>

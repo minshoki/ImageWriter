@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ThemeOverlay.Material3.Rounded" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="materialAlertDialogTheme">@style/MaterialAlertDialog.Rounded</item>
+    </style>
+
+    <style name="MaterialAlertDialog.Rounded" parent="MaterialAlertDialog.Material3">
+        <item name="shapeAppearance">@style/ShapeAppearance.MaterialAlertDialog.Rounded</item>
+    </style>
+
+    <style name="ShapeAppearance.MaterialAlertDialog.Rounded" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerSize">12dp</item>
+    </style>
+
+    <style name="AppTheme.Material3.BottomSheet" parent="Theme.Material3.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppTheme.Material3.BottomSheetStyle</item>
+    </style>
+
+    <style name="AppTheme.Material3.BottomSheetStyle" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="shapeAppearance">@style/ShapeAppearance.BottomSheet.Rounded</item>
+        <item name="backgroundTint">@color/design_color_white</item>
+    </style>
+
+    <style name="ShapeAppearance.BottomSheet.Rounded" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerSize">12dp</item>
+    </style>
+
+    <style name="ThemeOverlay.PopupMenu" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">@drawable/bg_common_popup_menu</item>
+        <item name="android:textColor">@color/gray_color_gray_07</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="ThemeOverlay.PopupMenuBlack" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">@drawable/bg_common_popup_menu_black</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="AppTheme.Material3.ActivityDialog" parent="@style/Theme.Material3.Light.Dialog">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+</resources>

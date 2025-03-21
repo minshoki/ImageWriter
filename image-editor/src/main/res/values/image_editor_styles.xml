@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="HiImageEditorTheme.NoActionBar" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/design_color_black</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+    <style name="HiImageEditor.Editor.FeatureButton" parent="Widget.Material3.Button.IconButton">
+        <item name="android:fontFamily">@font/nanumsquare_otf_ac_b</item>
+        <item name="iconGravity">textTop</item>
+        <item name="iconPadding">6dp</item>
+        <item name="iconTint">@color/background_bg_01</item>
+        <item name="android:textColor">@color/background_bg_02</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+</resources>

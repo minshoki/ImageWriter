@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="image_editor_confirm">완료</string>
+    <string name="image_editor_reset_to_original">원본으로 초기화</string>
+    <string name="image_editor_feature_text_sticker">텍스트</string>
+    <string name="image_editor_feature_sticker">스티커</string>
+    <string name="image_editor_feature_crop">자르기,회전</string>
+    <string name="image_editor_feature_crop_rotate">회전</string>
+    <string name="image_editor_feature_crop_original">원본</string>
+    <string name="image_editor_feature_crop_free">자유롭게</string>
+    <string name="image_editor_feature_crop_fixed">1:1</string>
+    <string name="image_editor_reset_edit_popup_message">현재 보이는 이미지를\n원본으로 초기화 합니다.\n진행 하시겠습니까?</string>
+    <string name="image_editor_random_ai_face_toast_message">버튼을 누를 때마다 스티커가 바뀝니다.</string>
+    <string name="image_editor_limit_text_sticker">텍스트는 50개까지 적용 가능합니다.</string>
+    <string name="image_editor_crop_popup_message">자르기, 회전 적용 시 이전에 적용한 스티커와 텍스트는 수정 불가합니다.\n진행하시겠습니까?</string>
+    <string name="image_editor_limit_stickers_toast_message">스티커는 50개까지 적용 가능합니다.</string>
+    <string name="image_editor_text_sticker_placeholder">텍스트를 입력하세요.</string>
+    <string name="image_editor_failed_sticker_popup_message">스티커 이미지를 불러오는데 실패했습니다.\n다시 시도해주세요.</string>
+    <string name="image_editor_failed_load_image">이미지를 불러오는데 실패했습니다.\n다시 시도해주세요.</string>
+</resources>
