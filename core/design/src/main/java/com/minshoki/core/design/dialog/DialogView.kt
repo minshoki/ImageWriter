@@ -8,15 +8,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import com.iscreammedia.app.hiclass.android.design.ui.dialog.HiclassDialogOption
-import com.minshoki.core.design.databinding.ViewHiclassDialogBinding
+import com.minshoki.core.design.databinding.ViewDialogBinding
 
-class HiclassDialogView @JvmOverloads constructor(
+class DialogView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : ConstraintLayout(context, attrs) {
 
-    private val binding: ViewHiclassDialogBinding =
-        ViewHiclassDialogBinding.inflate(LayoutInflater.from(context), this, true)
+    private val binding: ViewDialogBinding =
+        ViewDialogBinding.inflate(LayoutInflater.from(context), this, true)
 
     private var onPositiveListener: (() -> Unit)? = null
     private var onNegativeListener: (() -> Unit)? = null
@@ -47,7 +46,7 @@ class HiclassDialogView @JvmOverloads constructor(
         onNegativeListener = listener
     }
 
-    fun setOption(option: HiclassDialogOption) {
+    fun setOption(option: DialogOption) {
         if(option.positiveButtonTextColorResource != 0) {
             binding.btnPositive.setTextColor(ContextCompat.getColor(context, option.positiveButtonTextColorResource))
         }
@@ -79,7 +78,7 @@ class HiclassDialogView @JvmOverloads constructor(
         setOption(option)
     }
 
-    fun build(builder: Builder): HiclassDialogView {
+    fun build(builder: Builder): DialogView {
         initView(builder)
         return this
     }
@@ -89,14 +88,14 @@ class HiclassDialogView @JvmOverloads constructor(
         val context: Context
     ) {
 
-        internal var option: HiclassDialogOption = HiclassDialogOption()
+        internal var option: DialogOption = DialogOption()
 
-        fun setOption(option: HiclassDialogOption) = apply {
+        fun setOption(option: DialogOption) = apply {
             this.option = option
         }
 
-        fun build(): HiclassDialogView {
-            return HiclassDialogView(context).build(builder = this)
+        fun build(): DialogView {
+            return DialogView(context).build(builder = this)
         }
     }
 }

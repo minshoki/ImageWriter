@@ -439,7 +439,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.iscreammedia.app.hiclass.android.design.ui.toast.HiToastView
+        <com.minshoki.core.design.toast.ToastView
             android:id="@+id/view_toast"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

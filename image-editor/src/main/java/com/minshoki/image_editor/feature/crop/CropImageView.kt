@@ -26,7 +26,7 @@ import android.widget.ProgressBar
 import androidx.core.util.component1
 import androidx.core.util.component2
 import androidx.exifinterface.media.ExifInterface
-import com.iscreammedia.app.hiclass.android.imageeditor.R
+import com.minshoki.image_editor.R
 import com.minshoki.image_editor.feature.crop.CropOverlayView
 import com.minshoki.image_editor.feature.crop.utils.getFilePathFromUri
 import java.lang.ref.WeakReference

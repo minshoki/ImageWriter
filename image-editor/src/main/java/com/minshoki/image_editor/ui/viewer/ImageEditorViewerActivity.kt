@@ -13,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.bumptech.glide.Glide
 import com.minshoki.core.design.dialog.dialog
 import com.minshoki.core.design.safePlayAnimation
+import com.minshoki.image_compress.ImageCompress
 import com.minshoki.image_editor.R
 import com.minshoki.image_editor.core.EditorMode
 import com.minshoki.image_editor.core.ImageEditorHolder
@@ -380,7 +381,7 @@ class ImageEditorViewerActivity : ImageEditorBaseActivity<ActivityImageEditorVie
                                                         "${imageEditorCacheDir}${it.prefix}"
                                                     }
                                                 try {
-                                                    val result = HiImageCompress.compress(
+                                                    val result = ImageCompress.compress(
                                                         this@ImageEditorViewerActivity,
                                                         cacheDir = cacheDir,
                                                         bitmap = it.originalUri.toBitmap(this@ImageEditorViewerActivity),
@@ -413,7 +414,7 @@ class ImageEditorViewerActivity : ImageEditorBaseActivity<ActivityImageEditorVie
                                                             )
                                                             "${imageEditorCacheDir}${it.prefix}"
                                                         }
-                                                    val result = HiImageCompress.compress(
+                                                    val result = ImageCompress.compress(
                                                         this@ImageEditorViewerActivity,
                                                         cacheDir = cacheDir,
                                                         bitmap = it.originalUri.toBitmap(this@ImageEditorViewerActivity),
@@ -506,7 +507,7 @@ class ImageEditorViewerActivity : ImageEditorBaseActivity<ActivityImageEditorVie
                     }
                     val cacheDir =
                         "${imageEditorCacheDir}${state.makeData.first.prefix}${File.separator}remote_original"
-                    val compressBitmap = HiImageCompress.compress(
+                    val compressBitmap = ImageCompress.compress(
                         this@ImageEditorViewerActivity,
                         cacheDir = cacheDir,
                         bitmap = bitmapFromRemote,
@@ -554,7 +555,7 @@ class ImageEditorViewerActivity : ImageEditorBaseActivity<ActivityImageEditorVie
                     )
                     val key = state.resetImage.key
                     val fileName = "$key.jpg"
-                    HiImageCompress.compress(
+                    ImageCompress.compress(
                         this@ImageEditorViewerActivity,
                         cacheDir = "${imageEditorCacheDir}${state.resetImage.prefix}",
                         bitmap = state.resetImage.originalUri.toBitmap(this@ImageEditorViewerActivity),

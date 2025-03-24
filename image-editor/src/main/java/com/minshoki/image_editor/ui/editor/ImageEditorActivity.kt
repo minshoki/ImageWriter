@@ -30,19 +30,48 @@ import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.gson.Gson
+import com.google.mlkit.vision.common.InputImage
 import com.minshoki.core.design.dialog.dialog
+import com.minshoki.core.design.safePlayAnimation
+import com.minshoki.core.util.SoftKeyboardWatcher
+import com.minshoki.core.util.bitmap.point
+import com.minshoki.core.util.bitmap.resizeBitmap
+import com.minshoki.core.util.bitmap.rotate
+import com.minshoki.core.util.bitmap.rotateBitmap
+import com.minshoki.core.util.dp
+import com.minshoki.core.util.hideKeyboard
+import com.minshoki.core.util.showKeyboard
+import com.minshoki.image_compress.ImageCompress
 import com.minshoki.image_editor.R
 import com.minshoki.image_editor.core.EditorMode
 import com.minshoki.image_editor.core.ImageEditorHolder
+import com.minshoki.image_editor.core.TextStickerColors
 import com.minshoki.image_editor.core.base.ImageEditorBaseActivity
 import com.minshoki.image_editor.core.contract.ImageEditorContract
+import com.minshoki.image_editor.core.ext.ifFaceMinSize
+import com.minshoki.image_editor.core.ext.stickerAsDrawable
 import com.minshoki.image_editor.core.ext.toBitmap
+import com.minshoki.image_editor.core.imageEditorCacheDir
 import com.minshoki.image_editor.core.loadImageEditorData
 import com.minshoki.image_editor.core.makeSticker
 import com.minshoki.image_editor.core.saveImageEditorDataEmptyString
+import com.minshoki.image_editor.core.saveImageEditorDataString
 import com.minshoki.image_editor.databinding.ActivityImageEditorBinding
+import com.minshoki.image_editor.feature.crop.CropImage
+import com.minshoki.image_editor.feature.crop.CropImageOptions
 import com.minshoki.image_editor.feature.crop.CropImageView
+import com.minshoki.image_editor.feature.facedetection.FaceDetectionProcess
+import com.minshoki.image_editor.feature.sticker.AiSticker
+import com.minshoki.image_editor.feature.sticker.BlurSticker
+import com.minshoki.image_editor.feature.sticker.DrawableSticker
+import com.minshoki.image_editor.feature.sticker.MosaicSticker
+import com.minshoki.image_editor.feature.sticker.Sticker
+import com.minshoki.image_editor.feature.sticker.StickerView
+import com.minshoki.image_editor.feature.sticker.TextSticker
+import com.minshoki.image_editor.model.AiStickerDataModel
+import com.minshoki.image_editor.model.ImageEditorSticker
 import com.minshoki.image_editor.model.ImageEditorViewerModel
+import com.minshoki.image_editor.model.RemoteConfigStickersValueModel
 import com.minshoki.image_editor.viewmodel.ImageEditorViewModel
 import com.minshoki.image_editor.viewmodel.ImageTextStickerViewModel
 import kotlinx.coroutines.Dispatchers
@@ -51,6 +80,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.opencv.android.OpenCVLoader
 import java.io.File
 import kotlin.math.max
 import kotlin.math.min
@@ -300,7 +330,7 @@ class ImageEditorActivity : ImageEditorBaseActivity<ActivityImageEditorBinding>(
                             borderCornerLength = 20.dp.toFloat(),
                             borderCornerThickness = 4.dp.toFloat(),
                             borderLineThickness = 1f,
-                            borderCornerColor = getColor(com.iscreammedia.app.hiclass.android.design.R.color.design_color_primary_blue),
+                            borderCornerColor = getColor(com.minshoki.core.design.R.color.design_color_primary_blue),
                         )
                     )
                     binding.ivCrop.guidelines = CropImageView.Guidelines.ON
@@ -341,7 +371,7 @@ class ImageEditorActivity : ImageEditorBaseActivity<ActivityImageEditorBinding>(
                             .setTypeface(
                                 ResourcesCompat.getFont(
                                     this,
-                                    com.iscreammedia.app.hiclass.android.design.R.font.nanumsquare_otf_ac_b
+                                    com.minshoki.core.design.R.font.nanumsquare_otf_ac_b
                                 )
                             )
                             .setTextColor(this@ImageEditorActivity, state.addTextSticker.second)
@@ -725,7 +755,7 @@ class ImageEditorActivity : ImageEditorBaseActivity<ActivityImageEditorBinding>(
 
         binding.btnCropAndRotate.setOnClickListener {
             if (binding.sticker.getStickers().isNotEmpty()) {
-                hiDialog {
+                dialog {
                     message(getString(R.string.image_editor_crop_popup_message))
                     positiveListener {
                         imageEditorViewModel.sendAction(
@@ -1128,7 +1158,7 @@ class ImageEditorActivity : ImageEditorBaseActivity<ActivityImageEditorBinding>(
             val bitmap = if (fromCrop) createBitmapFromCrop(item.updatedBitmap) else createBitmap()
             val fileName = item.key + ".jpg"
             try {
-                val result = HiImageCompress.compress(
+                val result = ImageCompress.compress(
                     this@ImageEditorActivity,
                     cacheDir = "${imageEditorCacheDir}${item.prefix}",
                     bitmap = bitmap,
@@ -1147,7 +1177,7 @@ class ImageEditorActivity : ImageEditorBaseActivity<ActivityImageEditorBinding>(
                         isUpdatedBitmap = if(stickers.isNotEmpty()) true else item.updatedUri != item.originalUri && item.updatedUri != Uri.EMPTY
                     )
                 } else {
-                    val progress = HiImageCompress.compress(
+                    val progress = ImageCompress.compress(
                         this@ImageEditorActivity,
                         cacheDir = "${imageEditorCacheDir}${item.prefix}${File.separator}progress",
                         bitmap = createBitmap(withoutSticker = true),
@@ -1189,27 +1219,27 @@ class ImageEditorActivity : ImageEditorBaseActivity<ActivityImageEditorBinding>(
     }
 
     private fun fetchRemoteConfig() {
-        val remoteConfig = Firebase.remoteConfig
-        val key = "dev_photoStickers"
-
-        remoteConfig.fetchAndActivate()
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val remoteConfigValue = Firebase.remoteConfig[key].asString()
-                    applyRemoteConfig(remoteConfigValue)
-                }
-            }
-
-        remoteConfig.addOnConfigUpdateListener(object : ConfigUpdateListener {
-            override fun onUpdate(configUpdate: ConfigUpdate) {
-                if (configUpdate.updatedKeys.contains(key)) {
-                    val remoteConfigValue = Firebase.remoteConfig[key].asString()
-                    applyRemoteConfig(remoteConfigValue)
-                }
-            }
-
-            override fun onError(error: FirebaseRemoteConfigException) {}
-        })
+//        val remoteConfig = Firebase.remoteConfig
+//        val key = "dev_photoStickers"
+//
+//        remoteConfig.fetchAndActivate()
+//            .addOnCompleteListener {
+//                if (it.isSuccessful) {
+//                    val remoteConfigValue = Firebase.remoteConfig[key].asString()
+//                    applyRemoteConfig(remoteConfigValue)
+//                }
+//            }
+//
+//        remoteConfig.addOnConfigUpdateListener(object : ConfigUpdateListener {
+//            override fun onUpdate(configUpdate: ConfigUpdate) {
+//                if (configUpdate.updatedKeys.contains(key)) {
+//                    val remoteConfigValue = Firebase.remoteConfig[key].asString()
+//                    applyRemoteConfig(remoteConfigValue)
+//                }
+//            }
+//
+//            override fun onError(error: FirebaseRemoteConfigException) {}
+//        })
     }
 
     private fun applyRemoteConfig(remoteConfigValue: String) {
@@ -1230,7 +1260,7 @@ class ImageEditorActivity : ImageEditorBaseActivity<ActivityImageEditorBinding>(
                     )
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    hiDialog { message(getString(R.string.image_editor_failed_sticker_popup_message)) }
+                    dialog { message(getString(R.string.image_editor_failed_sticker_popup_message)) }
                 }
             }
         } catch (e: Exception) {

@@ -7,6 +7,7 @@ import android.graphics.Bitmap.CompressFormat
 import android.graphics.Color
 import android.graphics.Rect
 import android.net.Uri
+import android.os.Parcel
 import android.os.Parcelable
 import android.util.TypedValue
 import androidx.annotation.ColorInt
@@ -14,7 +15,8 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.Px
 import kotlinx.parcelize.Parcelize
 
-@Parcelize data class CropImageOptions @JvmOverloads constructor(
+@Parcelize
+data class CropImageOptions @JvmOverloads constructor(
     @JvmField var imageSourceIncludeGallery: Boolean = true,
     @JvmField var imageSourceIncludeCamera: Boolean = true,
     @JvmField var cropShape: CropImageView.CropShape = CropImageView.CropShape.RECTANGLE,

@@ -1,8 +1,8 @@
-package com.iscreammedia.app.hiclass.android.design.ui.dialog
+package com.minshoki.core.design.dialog
 
 import android.text.SpannedString
 
-class HiclassDialogOption {
+class DialogOption {
     internal var positiveButton: String = "확인"
     internal var negativeButton: String = "취소"
     internal var positiveButtonTextColorResource: Int = 0

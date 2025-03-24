@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.kapt)
     alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -46,12 +47,19 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.hilt)
     implementation(libs.androidx.activity)
+    implementation(libs.mlkit.face.detection)
     kapt(libs.hilt.compiler)
     kapt(libs.hilt.kapt.compiler)
+    implementation(libs.opencv) {
+        exclude(group = "androidx.databinding")
+    }
+    implementation(libs.lottie)
+    implementation(project(":image-compress"))
     implementation(project(":core:design"))
     implementation(project(":core:util"))
     implementation(libs.androidx.databinding.runtime)
     testImplementation(libs.junit)
+    implementation(libs.androidx.viewmodel.ktx)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

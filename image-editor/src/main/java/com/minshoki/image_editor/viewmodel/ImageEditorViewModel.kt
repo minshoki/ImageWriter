@@ -171,7 +171,7 @@ class ImageEditorViewModel : ViewModel() {
                 if(selectSticker is TextSticker) {
                     _imageEditorUiState.emit(
                         ImageEditorUiState(
-                            showLoading = true,
+//                            showLoading = true,
                             updateBitmap = action.item.copyOriginalBitmap to action.item.getChangeRotate(),
                             initStickers = action.item.stickers to selectSticker,
                         )
@@ -180,10 +180,10 @@ class ImageEditorViewModel : ViewModel() {
                 } else {
                     _imageEditorUiState.emit(
                         ImageEditorUiState(
-                            showLoading = true,
+//                            showLoading = true,
                             updateBitmap = action.item.copyOriginalBitmap to action.item.getChangeRotate(),
                             initStickers = action.item.stickers to selectSticker,
-                            updateBitmapAfterChangeMode = action.mode
+                            updateBitmapAfterChangeMode = action.mode,
                         )
                     )
                 }

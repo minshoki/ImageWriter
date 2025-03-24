@@ -1,6 +1,7 @@
 package com.minshoki.image_editor.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.minshoki.image_editor.core.TextStickerColors
 import com.minshoki.image_editor.feature.sticker.TextSticker
 import kotlinx.coroutines.channels.BufferOverflow
